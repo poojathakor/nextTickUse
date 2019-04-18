@@ -1,56 +1,50 @@
 <template>
-  <div class="hello">
-    <ul>
-      <li
-      v-for="(input, index) in inputs"
-      :key="`item-${index}`">
-       <!--  <input-comp refName="txtEditName" ref="txtEditName" :itemName="input.one" :submitname="submitName"></input-comp>
-         -->
-         <div v-if="DontshowInput">{{input.one}}</div>
-          <input
-            :type="DontshowInput ? 'hidden' : 'text'"
-            v-model="input.one"
-            ref="txtEditName"
-            v-on:keyup.enter="submitName"
-          />
-        <button @click="deleteRow(index)">Delete</button>
-      </li>
-    </ul>
-     <button @click="addRow">Add row</button>
+  <div>
+    <h1>Home</h1>
+    <div v-for="(input, ok) in inputs" :key="ok">
+      <Folder :folder="input"
+      :index="ok"
+      @createFolder="FolderCreated"
+    />
+    </div>
+    <button @click="addingNewFolder">Add Folder</button>
   </div>
 </template>
 
 <script>
+import Folder from "@/components/Folder";
 export default {
-  name: 'HelloWorld',
+  components: {
+    Folder
+  },
   data() {
     return {
       inputs: [],
-      DontshowInput: false
-    }
+    };
   },
+  // directives: {
+  //   focus: {
+  //     // directive definition
+  //     inserted: function (el) {
+  //       el.focus()
+  //     }
+  //   }
+  // },
   methods: {
-    addRow () {
+    addingNewFolder() {
       this.inputs.push({
-        one: ''
-      })
-      this.$nextTick(() => {
-        this.$refs.txtEditName[0].focus()
-      })
+        name: "New Folder",
+        new: true,
+        dontshow: false
+      });
     },
-    deleteRow(index) {
-      this.inputs.splice(index,1)
-    },
-    submitName () {
-      alert('name submitted')
-      this.DontshowInput = true
+    FolderCreated(index) {
+      console.log(index);
+      this.new = false;
     }
   }
-}
-
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
+<style>
 </style>
