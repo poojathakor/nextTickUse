@@ -1,13 +1,19 @@
 <template>
-  <div>
-    <h1>Home</h1>
-    <div v-for="(input, ok) in inputs" :key="ok">
-      <Folder :folder="input"
-      :index="ok"
-      @createFolder="FolderCreated"
-    />
+  <div class="container">
+    <h1 class="text-center">Add folder</h1>
+    <div class="text-right py-3">
+      <button @click="addingNewFolder" class="bg-transparent border-0">
+        <img src="@/assets/new-folder.svg"/>
+      </button>
     </div>
-    <button @click="addingNewFolder">Add Folder</button>
+      <div class="row">
+        <div class="col-md-3" v-for="(input, ok) in inputs" :key="ok">
+          <Folder :folder="input"
+          :index="ok"
+          @createFolder="FolderCreated"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -22,14 +28,6 @@ export default {
       inputs: [],
     };
   },
-  // directives: {
-  //   focus: {
-  //     // directive definition
-  //     inserted: function (el) {
-  //       el.focus()
-  //     }
-  //   }
-  // },
   methods: {
     addingNewFolder() {
       this.inputs.push({
@@ -39,7 +37,7 @@ export default {
       });
     },
     FolderCreated(index) {
-      console.log(index);
+      console.log(index)
       this.new = false;
     }
   }
