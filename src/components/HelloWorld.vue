@@ -4,8 +4,15 @@
       <li
       v-for="(input, index) in inputs"
       :key="`item-${index}`">
-        <input-comp refName="txtEditName" ref="txtEditName" :itemName="input.one" :submitname="submitName"></input-comp>
-        
+       <!--  <input-comp refName="txtEditName" ref="txtEditName" :itemName="input.one" :submitname="submitName"></input-comp>
+         -->
+         <div v-if="DontshowInput">{{input.one}}</div>
+          <input
+            :type="DontshowInput ? 'hidden' : 'text'"
+            v-model="input.one"
+            ref="txtEditName"
+            v-on:keyup.enter="submitName"
+          />
         <button @click="deleteRow(index)">Delete</button>
       </li>
     </ul>
@@ -14,16 +21,12 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import inputComp from './inputComp.vue'
 export default {
   name: 'HelloWorld',
-  components: {
-    'input-comp': inputComp
-  },
   data() {
     return {
-      inputs: []
+      inputs: [],
+      DontshowInput: false
     }
   },
   methods: {
@@ -32,7 +35,7 @@ export default {
         one: ''
       })
       this.$nextTick(() => {
-        this.$refs.txtEditName.focus()
+        this.$refs.txtEditName[0].focus()
       })
     },
     deleteRow(index) {
@@ -40,6 +43,7 @@ export default {
     },
     submitName () {
       alert('name submitted')
+      this.DontshowInput = true
     }
   }
 }
