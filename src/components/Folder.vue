@@ -7,8 +7,8 @@
         v-model="folder.name"
         ref="editFolder"
         :style="editable ? 'border:none;text-align:center' : '' "
-        @blur="editable=!editable"
-        v-on:keyup.enter="done(folder.name)"
+        @blur.prevent="done(folder.name)"
+        v-on:keyup.enter.prevent="this.blur()"
       >
       </div>
       <div v-if="editable" class="d-flex align-items-center">
